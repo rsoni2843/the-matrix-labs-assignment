@@ -11,7 +11,7 @@ const Navbar = () => {
   }, []);
   return (
     <>
-      <nav id="nav" className="navbar">
+      <nav id="nav" className="navbar tracking-in-expand">
         <ul>
           <li>Home</li>
           <li>Cities</li>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "./App.css";
 import Cities from "./component/Cities";
 import Footer from "./component/Footer";
@@ -6,32 +6,27 @@ import Home from "./component/Home";
 import Image from "./component/Image";
 import Navbar from "./component/Navbar";
 import News from "./component/News";
+import { NavbarContext } from "./context/NavbarContext";
 
 function App() {
-  const [latitude, setLatitude] = useState(null);
-  const [longitude, setLongitude] = useState(null);
-  const apiKey = "53700bda70338d6b9fa2f5ccccea694d";
-  const api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+  const { loading, error } = useContext(NavbarContext);
+  // const handleScrollToElement = (event) => {
+  //   // window.scrollTo(0, myRef.current.offsetTop);
+  // };
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      setLatitude(position.coords.latitude);
-      setLongitude(position.coords.longitude);
-    });
-  }, []);
-
-  const getData = async () => {
-    try {
-      let res = await fetch(api);
-      let data = await res.json();
-      // console.log(data);
-    } catch (err) {
-      // console.log(err);
-    }
-  };
-  getData();
-  console.log(latitude);
-  console.log(longitude);
+  if (loading) {
+    return (
+      <div className="loading-img">
+        <img
+          src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif"
+          alt="Loading"
+        />
+      </div>
+    );
+  }
+  if (error) {
+    return <h1>Some Error Occured. Kindly refresh the page.</h1>;
+  }
   return (
     <div className="App">
       <Navbar />
